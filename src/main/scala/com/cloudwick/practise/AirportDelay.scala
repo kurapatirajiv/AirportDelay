@@ -23,9 +23,9 @@ object AirportDelay {
   // Getting the header record of the file
   val header = inputRDD.first()
   val FilteredRDD = inputRDD.filter(row => row != header)
+  //Desired city = "San Francisco International"
   val city = configParam.getString("MyApp.airport")
 
-  //Desired Input = "San Francisco International"
   //val citiesFilePath = sc.textFile(args(1))
   val citiesFilePath = sc.textFile("hdfs://10.2.2.28:8020/airportList")
   val airport = getAirport(city, citiesFilePath)
@@ -98,7 +98,7 @@ object AirportDelay {
 
   }
 
-
+  // Get Week number of the year
   def getWeekOfYear(Year: Int, Month: Int, Day: Int): Int = {
 
     val calendarObject = Calendar.getInstance();
@@ -106,7 +106,7 @@ object AirportDelay {
     return calendarObject.get(Calendar.WEEK_OF_YEAR)
   }
 
-
+  // Remove the header and double quotes attached to the data
   def cleanCarrierFile(carrierList: RDD[String]): RDD[(String, String)] = {
 
     val carrierHeader = carrierList.first()
